@@ -38,27 +38,40 @@ USE WideWorldImporters;
 Нарастающий итог должен быть без оконной функции.
 */
 
+set statistics time, io ON;
+
+WITH MonthSum AS (
+	SELECT
+		DATEADD(month, DATEDIFF(month, 0, I.InvoiceDate), 0) AS [Month],
+		SUM(L.UnitPrice * L.Quantity) AS [Sum]
+	FROM Sales.Invoices I
+	LEFT JOIN Sales.InvoiceLines AS L ON L.InvoiceID = I.InvoiceID
+	GROUP BY DATEADD(month, DATEDIFF(month, 0, I.InvoiceDate), 0)
+),
+MonthSumRunning AS (
+	SELECT
+	[Month],
+	(SELECT SUM(M2.[Sum]) FROM MonthSum M2 WHERE M2.[Month] <= M1.[Month]) [Sum]
+	FROM MonthSum M1
+)
 SELECT
 	I.InvoiceID,
 	C.CustomerName,
 	I.InvoiceDate,
 	SUM(L.UnitPrice * L.Quantity) AS [Sum],
-	(
-		SELECT SUM(L2.UnitPrice * L2.Quantity) 
-		FROM Sales.Invoices AS I2 
-		LEFT JOIN Sales.InvoiceLines AS L2 ON L2.InvoiceID = I2.InvoiceID  
-		WHERE I2.InvoiceDate < EOMONTH(I.InvoiceDate)
-	) AS [MontySumRunning]
+	(SELECT [Sum] FROM MonthSumRunning MS WHERE DATEADD(month, DATEDIFF(month, 0, I.InvoiceDate), 0) = MS.Month) AS [Sum]
 FROM Sales.Invoices AS I
 LEFT JOIN Sales.InvoiceLines AS L ON L.InvoiceID = I.InvoiceID
 LEFT JOIN Sales.Customers AS C ON C.CustomerID = I.CustomerID
 GROUP BY I.InvoiceID,	C.CustomerName,	I.InvoiceDate
-ORDER BY I.InvoiceDate;
+ORDER BY I.InvoiceDate, I.InvoiceID;
 
+set statistics time, io OFF;
 /*
 2. Сделайте расчет суммы нарастающим итогом в предыдущем запросе с помощью оконной функции.
    Сравните производительность запросов 1 и 2 с помощью set statistics time, io on
 */
+set statistics time, io ON;
 
 SELECT
 	I.InvoiceID,
@@ -70,14 +83,39 @@ FROM Sales.Invoices AS I
 LEFT JOIN Sales.InvoiceLines AS L ON L.InvoiceID = I.InvoiceID
 LEFT JOIN Sales.Customers AS C ON C.CustomerID = I.CustomerID
 GROUP BY I.InvoiceID,	C.CustomerName,	I.InvoiceDate
-ORDER BY I.InvoiceDate;
+ORDER BY I.InvoiceDate, I.InvoiceID;
 
+set statistics time, io OFF;
 /*
 3. Вывести список 2х самых популярных продуктов (по количеству проданных) 
 в каждом месяце за 2016 год (по 2 самых популярных продукта в каждом месяце).
 */
 
-напишите здесь свое решение
+WITH Sums AS (
+	SELECT
+		DATEADD(month, DATEDIFF(month, 0, I.InvoiceDate), 0) AS [Month],
+		IL.StockItemId,
+		SUM(IL.Quantity) QuantitySum
+	FROM Sales.Invoices AS I
+	LEFT JOIN Sales.InvoiceLines AS IL ON I.InvoiceID = IL.InvoiceID
+	GROUP BY IL.StockItemID, DATEADD(month, DATEDIFF(month, 0, I.InvoiceDate), 0)
+),
+RangedSums AS (
+	SELECT
+		S.[Month],
+		S.StockItemID,
+		S.QuantitySum,
+		ROW_NUMBER() OVER (PARTITION BY S.[Month] ORDER BY S.QuantitySum DESC) AS RN
+	FROM Sums AS S
+)
+SELECT
+	RS.[Month],
+	SI.StockItemName,
+	RS.StockItemID,
+	RS.QuantitySum
+FROM RangedSums AS RS
+LEFT JOIN Warehouse.StockItems AS SI ON RS.StockItemID = SI.StockItemID
+WHERE RS.RN <= 2
 
 /*
 4. Функции одним запросом
@@ -93,20 +131,81 @@ ORDER BY I.InvoiceDate;
 Для этой задачи НЕ нужно писать аналог без аналитических функций.
 */
 
-напишите здесь свое решение
+SELECT 
+	S.StockItemID,
+	S.StockItemName,
+	S.Brand,
+	S.UnitPrice,
+	ROW_NUMBER() OVER (PARTITION BY LEFT(S.StockItemName,1) ORDER BY S.StockItemName) AS NumberInFirstLetter,
+	COUNT(S.StockItemID) OVER () AS Quantity,
+	COUNT(S.StockItemID) OVER (PARTITION BY LEFT(S.StockItemName,1)) AS QuantityByLetter,
+	LEAD(S.StockItemName) OVER (ORDER BY S.StockItemName) AS [Next],
+	LAG(S.StockItemName) OVER (ORDER BY S.StockItemName) AS [Prev],
+	ISNULL(LAG(S.StockItemName,2) OVER (ORDER BY S.StockItemName),'No items') AS [TwoPositionsPrev],
+	S.TypicalWeightPerUnit,
+	W.[Max] MaxWeight,
+	AVG(S.TypicalWeightPerUnit) OVER (PARTITION BY S.TypicalWeightPerUnit/W.[Max]/30) AS AverageWeightInGroup
+FROM Warehouse.StockItems AS S
+JOIN (SELECT MAX(TypicalWeightPerUnit) AS [Max] FROM Warehouse.StockItems) AS W ON S.StockItemID = S.StockItemID
+ORDER BY S.StockItemName
 
 /*
 5. По каждому сотруднику выведите последнего клиента, которому сотрудник что-то продал.
    В результатах должны быть ид и фамилия сотрудника, ид и название клиента, дата продажи, сумму сделки.
 */
 
-напишите здесь свое решение
+SELECT 
+	PersonID,
+	FullName,
+	CustomerID,
+	CustomerName,
+	[Sum]
+FROM (
+	SELECT 
+		P.PersonID,
+		P.FullName,
+		C.CustomerID,
+		C.CustomerName,
+		Sums.[Sum],
+		ROW_NUMBER() OVER (PARTITION BY I.SalespersonPersonID ORDER BY Sums.[Sum] DESC) AS RN
+	FROM Application.People AS P
+	LEFT JOIN Sales.Invoices AS I ON P.PersonID = I.SalespersonPersonID
+	LEFT JOIN Sales.Customers AS C ON I.CustomerID = C.CustomerID
+	LEFT JOIN (
+		SELECT
+			InvoiceID,
+			SUM(UnitPrice * Quantity) AS [Sum]
+		FROM Sales.InvoiceLines
+		GROUP BY InvoiceID
+	) AS Sums ON I.InvoiceID = Sums.InvoiceID
+	WHERE P.IsSalesperson = 1
+) AS SQ
+WHERE RN = 1
 
 /*
 6. Выберите по каждому клиенту два самых дорогих товара, которые он покупал.
 В результатах должно быть ид клиета, его название, ид товара, цена, дата покупки.
 */
 
-напишите здесь свое решение
+SELECT
+	CustomerID,
+	CustomerName,
+	StockItemID,
+	UnitPrice,
+	InvoiceDate
+FROM
+(
+	SELECT
+		C.CustomerID,
+		C.CustomerName,
+		L.StockItemID,
+		L.UnitPrice,
+		I.InvoiceDate,
+		ROW_NUMBER() OVER (PARTITION BY C.CustomerID ORDER BY L.UnitPrice DESC) AS RN
+	FROM Sales.Customers AS C
+	LEFT JOIN Sales.Invoices AS I ON C.CustomerID = I.CustomerID
+	LEFT JOIN Sales.InvoiceLines AS L ON I.InvoiceID = L.InvoiceID
+) AS Q
+WHERE RN <=2
 
-Опционально можете для каждого запроса без оконных функций сделать вариант запросов с оконными функциями и сравнить их производительность. 
+--Опционально можете для каждого запроса без оконных функций сделать вариант запросов с оконными функциями и сравнить их производительность. 
