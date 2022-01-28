@@ -139,13 +139,32 @@ SET STATISTICS time, io OFF;
 4) Создайте табличную функцию покажите как ее можно вызвать для каждой строки result set'а без использования цикла. 
 */
 
-EXEC ('SELECT CustomerID,CustomerName,CustomerCategoryID FROM Sales.Customers WHERE CustomerCategoryID = 3')
-WITH RESULT SETS
-((
-	[identity] int,
-	[name] nvarchar(50),
-	[category] int
-))
+IF OBJECT_ID ( 'Sales.GetOrderCount', 'IF' ) IS NOT NULL   
+    DROP FUNCTION Sales.GetOrderCount; 
+GO
+
+CREATE FUNCTION Sales.GetOrderCount
+(
+	@customerId int
+)
+RETURNS TABLE
+AS
+RETURN
+(
+	SELECT
+		O.CustomerID,
+		COUNT(O.CustomerID) AS [Count]
+	FROM Sales.Orders AS O
+	WHERE O.CustomerId = @customerId
+	GROUP BY O.CustomerID
+);
+GO
+
+SELECT 
+	C.CustomerName,
+	O.[Count]
+FROM Sales.Customers AS C
+CROSS APPLY (SELECT * FROM Sales.GetOrderCount(C.CustomerID) AS O WHERE C.CustomerID = O.CustomerId) AS O
 
 /*
 5) Опционально. Во всех процедурах укажите какой уровень изоляции транзакций вы бы использовали и почему. 
