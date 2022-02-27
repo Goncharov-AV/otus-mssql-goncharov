@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AMDB", "AMDB\AMDB.sqlproj", "{A58F0671-C14F-4B04-8CC0-E739FD7413D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMDB.Entities", "AMDB.Entities\AMDB.Entities.csproj", "{787C58D2-6E2E-469B-8254-0F03CD30BB7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A58F0671-C14F-4B04-8CC0-E739FD7413D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A58F0671-C14F-4B04-8CC0-E739FD7413D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A58F0671-C14F-4B04-8CC0-E739FD7413D0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A58F0671-C14F-4B04-8CC0-E739FD7413D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A58F0671-C14F-4B04-8CC0-E739FD7413D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A58F0671-C14F-4B04-8CC0-E739FD7413D0}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{787C58D2-6E2E-469B-8254-0F03CD30BB7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{787C58D2-6E2E-469B-8254-0F03CD30BB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{787C58D2-6E2E-469B-8254-0F03CD30BB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{787C58D2-6E2E-469B-8254-0F03CD30BB7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5CE007DB-978A-4AD2-ABD1-21FE49775579}
+	EndGlobalSection
+EndGlobal

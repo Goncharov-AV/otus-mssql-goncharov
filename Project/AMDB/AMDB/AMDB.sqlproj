@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>AMDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{a58f0671-c14f-4b04-8cc0-e739fd7413d0}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>AMDB</RootNamespace>
+    <AssemblyName>AMDB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Schemes" />
+    <Folder Include="Sequences" />
+    <Folder Include="Tables\Dictionaries" />
+    <Folder Include="Tables\Titles" />
+    <Folder Include="Tables\Names" />
+    <Folder Include="Tables\Companies" />
+    <Folder Include="Tables\Ratings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Schemes\Dictionaries.sql" />
+    <Build Include="Schemes\Sequences.sql" />
+    <Build Include="Sequences\GenreId.sql" />
+    <Build Include="Schemes\Titles.sql" />
+    <Build Include="Schemes\Names.sql" />
+    <Build Include="Schemes\Events.sql" />
+    <Build Include="Sequences\TypeId.sql" />
+    <Build Include="Sequences\CountryId.sql" />
+    <Build Include="Sequences\LanguageId.sql" />
+    <Build Include="Tables\Dictionaries\Genres.sql" />
+    <Build Include="Tables\Dictionaries\Types.sql" />
+    <Build Include="Tables\Dictionaries\Countries.sql" />
+    <Build Include="Tables\Dictionaries\Languages.sql" />
+    <Build Include="Tables\Titles\Movies.sql" />
+    <Build Include="Sequences\MovieId.sql" />
+    <Build Include="Sequences\ContentRatingId.sql" />
+    <Build Include="Tables\Dictionaries\ContentRatings.sql" />
+    <Build Include="Tables\Titles\Team.sql" />
+    <Build Include="Sequences\TeamId.sql" />
+    <Build Include="Sequences\PersonId.sql" />
+    <Build Include="Tables\Names\Persons.sql" />
+    <Build Include="Sequences\KnownForId.sql" />
+    <Build Include="Tables\Names\KnownFor.sql" />
+    <Build Include="Sequences\ProfessionId.sql" />
+    <Build Include="Tables\Dictionaries\Professions.sql" />
+    <Build Include="Tables\Names\PrimaryProfessions.sql" />
+    <Build Include="Sequences\PrimaryProfessionId.sql" />
+    <Build Include="Tables\Titles\Cast.sql" />
+    <Build Include="Sequences\CastId.sql" />
+    <Build Include="Tables\Titles\BoxOffice.sql" />
+    <Build Include="Sequences\BoxOfficeId.sql" />
+    <Build Include="Schemes\Companies.sql" />
+    <Build Include="Sequences\CompanyId.sql" />
+    <Build Include="Sequences\EpisodeInfoId.sql" />
+    <Build Include="Sequences\KeywordId.sql" />
+    <Build Include="Sequences\MovieCompanyId.sql" />
+    <Build Include="Sequences\MovieKeywordId.sql" />
+    <Build Include="Sequences\RatingId.sql" />
+    <Build Include="Sequences\RatingNameId.sql" />
+    <Build Include="Sequences\SimilarId.sql" />
+    <Build Include="Tables\Titles\EpisodesInfo.sql" />
+    <Build Include="Tables\Titles\MovieCompanies.sql" />
+    <Build Include="Tables\Titles\MovieKeywords.sql" />
+    <Build Include="Tables\Titles\Similars.sql" />
+    <Build Include="Tables\Dictionaries\Keywords.sql" />
+    <Build Include="Tables\Companies\Companies.sql" />
+    <Build Include="Tables\Ratings\RatingNames.sql" />
+    <Build Include="Tables\Ratings\Ratings.sql" />
+    <Build Include="Schemes\Ratings_1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="AMDB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AMDB.publish.xml" />
+  </ItemGroup>
+</Project>

@@ -1,6 +1,6 @@
 
-USE WideWorldImporters
-SELECT * FROM Warehouse.StockItems
+--USE WideWorldImporters
+--SELECT * FROM Warehouse.StockItems
 
 
 
