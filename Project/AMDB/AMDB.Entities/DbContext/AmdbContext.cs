@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using AMDB.Entities.Models;
 
-namespace AMDB.Entities.Models
+namespace AMDB.Entities.DbContext
 {
-    public partial class AmdbContext : DbContext
+    public partial class AmdbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public AmdbContext()
         {
@@ -28,7 +29,11 @@ namespace AMDB.Entities.Models
         public virtual DbSet<Language> Languages { get; set; } = null!;
         public virtual DbSet<Movie> Movies { get; set; } = null!;
         public virtual DbSet<MovieCompany> MovieCompanies { get; set; } = null!;
+        public virtual DbSet<MovieCountry> MovieCountries { get; set; } = null!;
+        public virtual DbSet<MovieGenre> MovieGenres { get; set; } = null!;
         public virtual DbSet<MovieKeyword> MovieKeywords { get; set; } = null!;
+        public virtual DbSet<MovieLanguage> MovieLanguages { get; set; } = null!;
+        public virtual DbSet<MovieType> MovieTypes { get; set; } = null!;
         public virtual DbSet<Person> Persons { get; set; } = null!;
         public virtual DbSet<PrimaryProfession> PrimaryProfessions { get; set; } = null!;
         public virtual DbSet<Profession> Professions { get; set; } = null!;
@@ -36,14 +41,13 @@ namespace AMDB.Entities.Models
         public virtual DbSet<RatingName> RatingNames { get; set; } = null!;
         public virtual DbSet<Similar> Similars { get; set; } = null!;
         public virtual DbSet<Team> Teams { get; set; } = null!;
-        public virtual DbSet<Type> Types { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=EMI-N-ET410002;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False", x => x.UseNetTopologySuite());
+                optionsBuilder.UseSqlServer("Data Source=EMI-N-ET410002;Initial Catalog=AMDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False", x => x.UseNetTopologySuite());
             }
         }
 
@@ -94,6 +98,8 @@ namespace AMDB.Entities.Models
                 entity.ToTable("Companies", "Companies");
 
                 entity.Property(e => e.CompanyId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[CompanyId])");
+
+                entity.Property(e => e.CompanyName).HasMaxLength(255);
             });
 
             modelBuilder.Entity<ContentRating>(entity =>
@@ -121,7 +127,7 @@ namespace AMDB.Entities.Models
             modelBuilder.Entity<EpisodesInfo>(entity =>
             {
                 entity.HasKey(e => e.EpisodeInfoId)
-                    .HasName("PK__Episodes__30BB6AAD09C02E8D");
+                    .HasName("PK__Episodes__30BB6AAD2812FE64");
 
                 entity.ToTable("EpisodesInfo", "Titles");
 
@@ -177,7 +183,7 @@ namespace AMDB.Entities.Models
             {
                 entity.ToTable("Languages", "Dictionaries");
 
-                entity.Property(e => e.Id).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[LanguageId])");
+                entity.Property(e => e.LanguageId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[LanguageId])");
 
                 entity.Property(e => e.Language1)
                     .HasMaxLength(255)
@@ -213,10 +219,10 @@ namespace AMDB.Entities.Models
                     .HasForeignKey(d => d.EpisodeInfoId)
                     .HasConstraintName("FK_Titles_Movies_Titles_EpisodesInfo");
 
-                entity.HasOne(d => d.Type)
+                entity.HasOne(d => d.MovieType)
                     .WithMany(p => p.Movies)
-                    .HasForeignKey(d => d.TypeId)
-                    .HasConstraintName("FK_Titles_Movies_Dictionaries_Types");
+                    .HasForeignKey(d => d.MovieTypeId)
+                    .HasConstraintName("FK_Titles_Movies_Dictionaries_MoveiTypes");
             });
 
             modelBuilder.Entity<MovieCompany>(entity =>
@@ -238,10 +244,48 @@ namespace AMDB.Entities.Models
                     .HasConstraintName("FK_Titles_MovieCompanies_Titles_Movies");
             });
 
+            modelBuilder.Entity<MovieCountry>(entity =>
+            {
+                entity.ToTable("MovieCountries", "Titles");
+
+                entity.Property(e => e.MovieCountryId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[MovieCountryId])");
+
+                entity.HasOne(d => d.Country)
+                    .WithMany(p => p.MovieCountries)
+                    .HasForeignKey(d => d.CountryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Titles_MovieCountries_Dictionaries_Countries");
+
+                entity.HasOne(d => d.Movie)
+                    .WithMany(p => p.MovieCountries)
+                    .HasForeignKey(d => d.MovieId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Titles_MovieCountries_Titles_Movies");
+            });
+
+            modelBuilder.Entity<MovieGenre>(entity =>
+            {
+                entity.ToTable("MovieGenres", "Titles");
+
+                entity.Property(e => e.MovieGenreId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[MovieGenreId])");
+
+                entity.HasOne(d => d.Genre)
+                    .WithMany(p => p.MovieGenres)
+                    .HasForeignKey(d => d.GenreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Titles_MovieGenres_Dictionaries_Genres");
+
+                entity.HasOne(d => d.Movie)
+                    .WithMany(p => p.MovieGenres)
+                    .HasForeignKey(d => d.MovieId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Titles_MovieGenres_Titles_Movies");
+            });
+
             modelBuilder.Entity<MovieKeyword>(entity =>
             {
                 entity.HasKey(e => e.MovieKeywordsId)
-                    .HasName("PK__MovieKey__8BD047871C8CA527");
+                    .HasName("PK__MovieKey__8BD047875EEF3FAF");
 
                 entity.ToTable("MovieKeywords", "Titles");
 
@@ -258,6 +302,34 @@ namespace AMDB.Entities.Models
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Titles_MovieKeywords_Titles_Movies");
+            });
+
+            modelBuilder.Entity<MovieLanguage>(entity =>
+            {
+                entity.ToTable("MovieLanguages", "Titles");
+
+                entity.Property(e => e.MovieLanguageId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[MovieLanguageId])");
+
+                entity.HasOne(d => d.Language)
+                    .WithMany(p => p.MovieLanguages)
+                    .HasForeignKey(d => d.LanguageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Titles_MovieLanguages_Dictionaries_Languages");
+
+                entity.HasOne(d => d.Movie)
+                    .WithMany(p => p.MovieLanguages)
+                    .HasForeignKey(d => d.MovieId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Titles_MovieLanguages_Titles_Movies");
+            });
+
+            modelBuilder.Entity<MovieType>(entity =>
+            {
+                entity.ToTable("MovieTypes", "Dictionaries");
+
+                entity.Property(e => e.MovieTypeId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[MovieTypeId])");
+
+                entity.Property(e => e.MovieTypeName).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Person>(entity =>
@@ -377,17 +449,6 @@ namespace AMDB.Entities.Models
                     .HasConstraintName("FK_Titles_Teams_Dictionaries_Professions");
             });
 
-            modelBuilder.Entity<Type>(entity =>
-            {
-                entity.ToTable("Types", "Dictionaries");
-
-                entity.Property(e => e.TypeId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[TypeId])");
-
-                entity.Property(e => e.Type1)
-                    .HasMaxLength(255)
-                    .HasColumnName("Type");
-            });
-
             modelBuilder.HasSequence("BoxOfficeId", "Sequences");
 
             modelBuilder.HasSequence("CastId", "Sequences");
@@ -410,9 +471,17 @@ namespace AMDB.Entities.Models
 
             modelBuilder.HasSequence("MovieCompanyId", "Sequences");
 
+            modelBuilder.HasSequence("MovieCountryId", "Sequences");
+
+            modelBuilder.HasSequence("MovieGenreId", "Sequences");
+
             modelBuilder.HasSequence("MovieId", "Sequences");
 
             modelBuilder.HasSequence("MovieKeywordId", "Sequences");
+
+            modelBuilder.HasSequence("MovieLanguageId", "Sequences");
+
+            modelBuilder.HasSequence("MovieTypeId", "Sequences");
 
             modelBuilder.HasSequence("PersonId", "Sequences");
 

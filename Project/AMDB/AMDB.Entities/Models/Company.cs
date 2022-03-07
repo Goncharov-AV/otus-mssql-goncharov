@@ -11,6 +11,7 @@ namespace AMDB.Entities.Models
         }
 
         public int CompanyId { get; set; }
+        public string? CompanyName { get; set; }
 
         public virtual ICollection<MovieCompany> MovieCompanies { get; set; }
     }

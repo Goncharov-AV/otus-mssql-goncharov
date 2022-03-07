@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AMDB", "AMDB\AMDB.sqlproj", "{A58F0671-C14F-4B04-8CC0-E739FD7413D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMDB.Entities", "AMDB.Entities\AMDB.Entities.csproj", "{787C58D2-6E2E-469B-8254-0F03CD30BB7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMDB.Entities", "AMDB.Entities\AMDB.Entities.csproj", "{787C58D2-6E2E-469B-8254-0F03CD30BB7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADMB.DataImporter", "ADMB.DataImporter\ADMB.DataImporter.csproj", "{FB389A1A-9B22-4221-A1F1-F339A72F8B7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{787C58D2-6E2E-469B-8254-0F03CD30BB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{787C58D2-6E2E-469B-8254-0F03CD30BB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{787C58D2-6E2E-469B-8254-0F03CD30BB7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB389A1A-9B22-4221-A1F1-F339A72F8B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB389A1A-9B22-4221-A1F1-F339A72F8B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB389A1A-9B22-4221-A1F1-F339A72F8B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB389A1A-9B22-4221-A1F1-F339A72F8B7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

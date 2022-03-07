@@ -11,7 +11,10 @@ namespace AMDB.Entities.Models
             EpisodesInfos = new HashSet<EpisodesInfo>();
             KnownFors = new HashSet<KnownFor>();
             MovieCompanies = new HashSet<MovieCompany>();
+            MovieCountries = new HashSet<MovieCountry>();
+            MovieGenres = new HashSet<MovieGenre>();
             MovieKeywords = new HashSet<MovieKeyword>();
+            MovieLanguages = new HashSet<MovieLanguage>();
             Ratings = new HashSet<Rating>();
             SimilarMovies = new HashSet<Similar>();
             SimilarSimilarMovies = new HashSet<Similar>();
@@ -23,7 +26,7 @@ namespace AMDB.Entities.Models
         public string? Title { get; set; }
         public string? OriginalTitle { get; set; }
         public string? FullTitle { get; set; }
-        public int? TypeId { get; set; }
+        public int? MovieTypeId { get; set; }
         public int? Year { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public int? RuntimeMins { get; set; }
@@ -37,12 +40,15 @@ namespace AMDB.Entities.Models
         public virtual BoxOffice? BoxOffice { get; set; }
         public virtual ContentRating? ContentRating { get; set; }
         public virtual EpisodesInfo? EpisodeInfo { get; set; }
-        public virtual Type? Type { get; set; }
+        public virtual MovieType? MovieType { get; set; }
         public virtual ICollection<Cast> Casts { get; set; }
         public virtual ICollection<EpisodesInfo> EpisodesInfos { get; set; }
         public virtual ICollection<KnownFor> KnownFors { get; set; }
         public virtual ICollection<MovieCompany> MovieCompanies { get; set; }
+        public virtual ICollection<MovieCountry> MovieCountries { get; set; }
+        public virtual ICollection<MovieGenre> MovieGenres { get; set; }
         public virtual ICollection<MovieKeyword> MovieKeywords { get; set; }
+        public virtual ICollection<MovieLanguage> MovieLanguages { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<Similar> SimilarMovies { get; set; }
         public virtual ICollection<Similar> SimilarSimilarMovies { get; set; }

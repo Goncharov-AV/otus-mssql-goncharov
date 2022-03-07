@@ -72,11 +72,11 @@
     <Build Include="Schemes\Titles.sql" />
     <Build Include="Schemes\Names.sql" />
     <Build Include="Schemes\Events.sql" />
-    <Build Include="Sequences\TypeId.sql" />
+    <Build Include="Sequences\MovieTypeId.sql" />
     <Build Include="Sequences\CountryId.sql" />
     <Build Include="Sequences\LanguageId.sql" />
     <Build Include="Tables\Dictionaries\Genres.sql" />
-    <Build Include="Tables\Dictionaries\Types.sql" />
+    <Build Include="Tables\Dictionaries\MovieTypes.sql" />
     <Build Include="Tables\Dictionaries\Countries.sql" />
     <Build Include="Tables\Dictionaries\Languages.sql" />
     <Build Include="Tables\Titles\Movies.sql" />
@@ -115,6 +115,12 @@
     <Build Include="Tables\Ratings\RatingNames.sql" />
     <Build Include="Tables\Ratings\Ratings.sql" />
     <Build Include="Schemes\Ratings_1.sql" />
+    <Build Include="Tables\Titles\MovieLanguages.sql" />
+    <Build Include="Tables\Titles\MovieGenres.sql" />
+    <Build Include="Tables\Titles\MovieCountries.sql" />
+    <Build Include="Sequences\MovieGenreId.sql" />
+    <Build Include="Sequences\MovieLanguageId.sql" />
+    <Build Include="Sequences\MovieCountryId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AMDB.refactorlog" />

@@ -5,7 +5,14 @@ namespace AMDB.Entities.Models
 {
     public partial class Language
     {
-        public int Id { get; set; }
+        public Language()
+        {
+            MovieLanguages = new HashSet<MovieLanguage>();
+        }
+
+        public int LanguageId { get; set; }
         public string Language1 { get; set; } = null!;
+
+        public virtual ICollection<MovieLanguage> MovieLanguages { get; set; }
     }
 }

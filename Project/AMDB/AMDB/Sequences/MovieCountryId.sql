@@ -1,4 +1,4 @@
-﻿CREATE SEQUENCE [Sequences].[TypeId]
+﻿CREATE SEQUENCE [Sequences].[MovieCountryId]
 		AS BIGINT
 		START WITH 1
 		INCREMENT BY 1

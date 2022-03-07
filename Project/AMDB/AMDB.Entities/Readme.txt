@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext -Connection "Data Source=EMI-N-ET410002;Initial Catalog=AMDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False" -Context AmdbContext -ContextDir DbContext -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force

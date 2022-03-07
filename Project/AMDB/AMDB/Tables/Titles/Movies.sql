@@ -5,7 +5,7 @@
 	[Title] NVARCHAR(255),
 	[OriginalTitle] NVARCHAR(255),
 	[FullTitle] NVARCHAR(255),
-	[TypeId] INT,
+	[MovieTypeId] INT,
 	[Year] INT,
 	[ReleaseDate] DATETIME2,
 	[RuntimeMins] INT,
@@ -15,7 +15,7 @@
 	[YearEnd] INT,
 	[EpisodeInfoId] INT,
 	[BoxOfficeId] INT,
-	CONSTRAINT FK_Titles_Movies_Dictionaries_Types FOREIGN KEY([TypeId]) REFERENCES [Dictionaries].[Types]([TypeId]),
+	CONSTRAINT FK_Titles_Movies_Dictionaries_MoveiTypes FOREIGN KEY([MovieTypeId]) REFERENCES [Dictionaries].[MovieTypes]([MovieTypeId]),
 	CONSTRAINT FK_Titles_Movies_Dictionaties_ContentRatings FOREIGN KEY([ContentRatingId]) REFERENCES [Dictionaries].[ContentRatings]([ContentRatingId]),
 	CONSTRAINT FK_Titles_Movies_Titles_EpisodesInfo FOREIGN KEY([EpisodeInfoId]) REFERENCES [Titles].[EpisodesInfo]([EpisodeInfoId]),
 	CONSTRAINT FK_Titles_Movies_Titles_BoxOffice FOREIGN KEY([BoxOfficeId]) REFERENCES [Titles].[BoxOffice]([BoxOfficeId])
