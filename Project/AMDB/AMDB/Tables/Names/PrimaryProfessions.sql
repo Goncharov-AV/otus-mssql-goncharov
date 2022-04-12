@@ -6,3 +6,11 @@
 	CONSTRAINT FK_Names_PrimaryProfessions_Names_Persons FOREIGN KEY([PersonId]) REFERENCES [Names].[Persons]([PersonId]),
 	CONSTRAINT FK_Names_PrimaryProfessions_Dictionaries_Professions FOREIGN KEY([ProfessionId]) REFERENCES [Dictionaries].[Professions]([ProfessionId])
 )
+
+GO
+
+CREATE INDEX [IX_PrimaryProfessions_PersonId] ON [Names].[PrimaryProfessions] ([PersonId])
+
+GO
+
+CREATE INDEX [IX_PrimaryProfessions_ProfessionId] ON [Names].[PrimaryProfessions] ([ProfessionId])

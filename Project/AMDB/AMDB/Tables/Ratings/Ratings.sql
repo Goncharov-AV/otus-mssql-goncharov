@@ -7,3 +7,11 @@
 	CONSTRAINT FK_Ratings_Ratings_Ratings_RatingNames FOREIGN KEY([RatingNameId]) REFERENCES [Ratings].[RatingNames]([RatingNameId]),
 	CONSTRAINT FK_Ratings_Ratings_Titles_Movies FOREIGN KEY([MovieId]) REFERENCES [Titles].[Movies]([MovieId]),
 )
+
+GO
+
+CREATE INDEX [IX_Ratings_RatingNameId] ON [Ratings].[Ratings] ([RatingNameId])
+
+GO
+
+CREATE INDEX [IX_Ratings_MovieId] ON [Ratings].[Ratings] ([MovieId])

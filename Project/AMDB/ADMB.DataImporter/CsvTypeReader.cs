@@ -21,8 +21,10 @@ namespace ADMB.DataImporter
         {
             var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                Delimiter = "\t"
+                Delimiter = "\t",
             };
+            csvConfiguration.Escape = '"';
+            csvConfiguration.Mode = CsvMode.NoEscape;
 
             using var reader = new StreamReader(Path);
             using var csv = new CsvReader(reader, csvConfiguration);

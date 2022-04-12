@@ -1,40 +1,40 @@
-﻿using System.Globalization;
-using ADMB.DataImporter;
-using CsvHelper;
-using CsvHelper.Configuration;
+﻿using ADMB.DataImporter;
+using ADMB.DataImporter.Fillers;
+using AMDB.Entities.DbContext;
 
-// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+AmdbContext dbContext = new AmdbContext();
 
-//IEnumerable<UserRating> records;
-//List<UserRating> records;
+//Companies.Companies
+//Dictionaries.ContentRatings
+//Dictionaries.Countries
+//Dictionaries.Genres
+//Dictionaries.Keywords
+//Dictionaries.Languages
+//Dictionaries.MovieTypes
 
-//var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
-//{
-//    Delimiter = "\t"
-//};
-//
-//using (var reader = new StreamReader($"c:\\_Sources\\otus-mssql-goncharov\\Project\\Datasets\\IMDB\\title.ratings.tsv\\data.tsv"))
-//using (var csv = new CsvReader(reader, csvConfiguration))
-//{
-//    //records = csv.GetRecords<UserRating>().ToList();
-//    var recs = csv.GetRecords<UserRating>();
-//    foreach (var record in recs)
-//    {
-//        if (record != null)
-//            Console.Write(record.tconst);
-//    }
-//}
+//Dictionaries.Professions
+//var professionFiller = new DictionariesProfessionsFiller(CsvFiles.NameBasics, dbContext);
+//professionFiller.Fill();
 
-//var result = records.ToList();
+//Names.KnownFor
 
-var path = $"c:\\_Sources\\otus-mssql-goncharov\\Project\\Datasets\\IMDB\\title.ratings.tsv\\data.tsv";
-var reader = new CsvTypeReader<UserRating>(path);
-var records = reader.ReadRecords();
+//Names.Persons
+var personsFiller = new NamesPersonsFiller(CsvFiles.NameBasics, dbContext);
+personsFiller.Fill();
 
-foreach (var record in records)
-{
-    Console.WriteLine(record.tconst);
-}
+//Names.PrimaryProfessions
+//Ratings.RatingNames
+//Ratings.Ratings
+//Titles.BoxOffice
+//Titles.Cast
+//Titles.EpisodesInfo
+//Titles.MovieCompanies
+//Titles.MovieCountries
+//Titles.MovieGenres
+//Titles.MovieKeywords
+//Titles.MovieLanguages
+//Titles.Movies
+//Titles.Similars
+//Titles.Teams
 
 Console.WriteLine("Done!");
