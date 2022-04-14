@@ -33,12 +33,46 @@ public class NamesPersonsFiller
 
     private void AddPersonsToDb(IEnumerable<NameBasic> nameBasics)
     {
-        var temp = nameBasics.
-    
-        var personsEntities = nameBasics.Select(x => new Person() {});
+        var counter = 0;
+        var step = 10000;
+        var personsEntities = new List<Person>();
 
-        DbContext.Persons.AddRange(personsEntities);
-        //DbContext.SaveChanges();
+        foreach (var record in nameBasics)
+        {
+            if (counter == step)
+            {
+                Console.WriteLine(counter);
+
+
+                using (AmdbContext dbContext = new AmdbContext())
+                {
+                    dbContext.Persons.AddRange(personsEntities);
+                    dbContext.SaveChanges();
+                }
+                
+                counter = 0;
+                personsEntities.Clear();
+            }
+
+            var person = new Person()
+            {
+                PersonImdbId = record.nconst,
+                Name = record.primaryName,
+                BirthDate = record.birthYear != "\\N" ? new DateTime(int.Parse(record.birthYear), 1, 1) : null,
+                DeathDate = record.deathYear != "\\N" ? new DateTime(int.Parse(record.deathYear), 1, 1) : null
+            };
+
+            personsEntities.Add(person);
+
+            counter++;
+        }
+
+        using (AmdbContext dbContext = new AmdbContext())
+        {
+            dbContext.Persons.AddRange(personsEntities);
+            dbContext.SaveChanges();
+        }
+
         Console.WriteLine("Done");
     }
 }

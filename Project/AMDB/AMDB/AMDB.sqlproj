@@ -64,6 +64,7 @@
     <Folder Include="Tables\Names" />
     <Folder Include="Tables\Companies" />
     <Folder Include="Tables\Ratings" />
+    <Folder Include="Tables\tmp" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schemes\Dictionaries.sql" />
@@ -121,6 +122,8 @@
     <Build Include="Sequences\MovieGenreId.sql" />
     <Build Include="Sequences\MovieLanguageId.sql" />
     <Build Include="Sequences\MovieCountryId.sql" />
+    <Build Include="Schemes\tmp.sql" />
+    <Build Include="Tables\tmp\PersonPrimaryProfession.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AMDB.refactorlog" />
