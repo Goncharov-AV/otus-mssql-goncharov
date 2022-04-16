@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Fillers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AMDB.Entities\AMDB.Entities.csproj" />
   </ItemGroup>
 

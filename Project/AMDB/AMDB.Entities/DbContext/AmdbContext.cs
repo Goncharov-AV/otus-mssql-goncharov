@@ -35,6 +35,7 @@ namespace AMDB.Entities.DbContext
         public virtual DbSet<MovieLanguage> MovieLanguages { get; set; } = null!;
         public virtual DbSet<MovieType> MovieTypes { get; set; } = null!;
         public virtual DbSet<Person> Persons { get; set; } = null!;
+        public virtual DbSet<PersonPrimaryProfession> PersonPrimaryProfessions { get; set; } = null!;
         public virtual DbSet<PrimaryProfession> PrimaryProfessions { get; set; } = null!;
         public virtual DbSet<Profession> Professions { get; set; } = null!;
         public virtual DbSet<Rating> Ratings { get; set; } = null!;
@@ -163,6 +164,10 @@ namespace AMDB.Entities.DbContext
             modelBuilder.Entity<KnownFor>(entity =>
             {
                 entity.ToTable("KnownFor", "Names");
+
+                entity.HasIndex(e => e.PersonId, "IX_KnownFor_PersonId");
+
+                entity.HasIndex(e => e.MovieId, "IX_KnownFor_[MovieId");
 
                 entity.Property(e => e.KnownForId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[KnownForId])");
 
@@ -336,6 +341,8 @@ namespace AMDB.Entities.DbContext
             {
                 entity.ToTable("Persons", "Names");
 
+                entity.HasIndex(e => e.PersonImdbId, "IX_Persons_PersonImdbId");
+
                 entity.Property(e => e.PersonId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[PersonId])");
 
                 entity.Property(e => e.Name).HasMaxLength(255);
@@ -343,9 +350,22 @@ namespace AMDB.Entities.DbContext
                 entity.Property(e => e.PersonImdbId).HasMaxLength(255);
             });
 
+            modelBuilder.Entity<PersonPrimaryProfession>(entity =>
+            {
+                entity.ToTable("PersonPrimaryProfession", "tmp");
+
+                entity.Property(e => e.PersonImdbId).HasMaxLength(255);
+
+                entity.Property(e => e.Profession).HasMaxLength(255);
+            });
+
             modelBuilder.Entity<PrimaryProfession>(entity =>
             {
                 entity.ToTable("PrimaryProfessions", "Names");
+
+                entity.HasIndex(e => e.PersonId, "IX_PrimaryProfessions_PersonId");
+
+                entity.HasIndex(e => e.ProfessionId, "IX_PrimaryProfessions_ProfessionId");
 
                 entity.Property(e => e.PrimaryProfessionId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[PrimaryProfessionId])");
 
@@ -366,6 +386,8 @@ namespace AMDB.Entities.DbContext
             {
                 entity.ToTable("Professions", "Dictionaries");
 
+                entity.HasIndex(e => e.Profession1, "IX_Professions_Profession");
+
                 entity.Property(e => e.ProfessionId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[ProfessionId])");
 
                 entity.Property(e => e.Profession1)
@@ -376,6 +398,10 @@ namespace AMDB.Entities.DbContext
             modelBuilder.Entity<Rating>(entity =>
             {
                 entity.ToTable("Ratings", "Ratings");
+
+                entity.HasIndex(e => e.MovieId, "IX_Ratings_MovieId");
+
+                entity.HasIndex(e => e.RatingNameId, "IX_Ratings_RatingNameId");
 
                 entity.Property(e => e.RatingId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[RatingId])");
 

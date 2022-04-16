@@ -1,13 +1,19 @@
 ﻿using ADMB.DataImporter;
+using ADMB.DataImporter.CsvModels;
 using ADMB.DataImporter.Fillers;
 using AMDB.Entities.DbContext;
+using AMDB.Entities.Models;
 
 using (AmdbContext dbContext = new AmdbContext())
 {
     //Companies.Companies
     //Dictionaries.ContentRatings
     //Dictionaries.Countries
+    
     //Dictionaries.Genres
+    var genresFiller = new UniversalDictionaryFiller<TitleBasic, Genre>(CsvFiles.TitleBasics, dbContext, (s => new Genre() {GenreName = s}), "genres");
+    genresFiller.Fill();
+
     //Dictionaries.Keywords
     //Dictionaries.Languages
     //Dictionaries.MovieTypes
@@ -26,6 +32,10 @@ using (AmdbContext dbContext = new AmdbContext())
     //var primaryProfessionFiller = new PrimaryProfessionFiller(CsvFiles.NameBasics, dbContext);
     //primaryProfessionFiller.Fill();
 
+    //Tmp.PrimaryProfessions
+    //var personPrimaryProfessionFiller = new TmpPersonPrimaryProfessionFiller(CsvFiles.NameBasics, dbContext);
+    //personPrimaryProfessionFiller.Fill();
+
     //Names.PrimaryProfessions
     //Ratings.RatingNames
     //Ratings.Ratings
@@ -40,7 +50,7 @@ using (AmdbContext dbContext = new AmdbContext())
     //Titles.Movies
     //Titles.Similars
     //Titles.Teams
-
+    
 }
 
 
