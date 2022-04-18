@@ -124,6 +124,13 @@
     <Build Include="Sequences\MovieCountryId.sql" />
     <Build Include="Schemes\tmp.sql" />
     <Build Include="Tables\tmp\PersonPrimaryProfession.sql" />
+    <Build Include="Tables\tmp\TItleRatings.sql" />
+    <Build Include="Tables\tmp\Principals.sql" />
+    <Build Include="Tables\tmp\episodes.sql" />
+    <Build Include="Tables\tmp\Crew.sql" />
+    <Build Include="Tables\tmp\Akas.sql" />
+    <Build Include="Tables\tmp\TmpKnownFor.sql" />
+    <Build Include="Tables\tmp\TmpTitleBasicsGenres.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AMDB.refactorlog" />

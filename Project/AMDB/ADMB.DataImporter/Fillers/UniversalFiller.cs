@@ -41,7 +41,6 @@ public class UniversalFiller<TCsvClass, TEntity>
 
         foreach (var record in csvObjects)
         {
-
             var entity = Mapper(record);
 
             if (entity != null) DbContext.Add(entity);
@@ -53,12 +52,12 @@ public class UniversalFiller<TCsvClass, TEntity>
                 Console.WriteLine(count2);
                 count = 0;
             }
-
+            
             count++;
             count2++;
         }
 
-        DbContext.AddRange(entities);
+        //DbContext.AddRange(entities);
         DbContext.SaveChanges();
 
         Console.WriteLine("Done");

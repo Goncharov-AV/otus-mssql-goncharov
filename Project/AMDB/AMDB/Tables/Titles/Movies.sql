@@ -11,12 +11,9 @@
 	[RuntimeMins] INT,
 	[Plot] NVARCHAR(MAX),
 	[ContentRatingId] INT,
-	[SeriesInfoId] INT,
 	[YearEnd] INT,
-	[EpisodeInfoId] INT,
 	[BoxOfficeId] INT,
 	CONSTRAINT FK_Titles_Movies_Dictionaries_MoveiTypes FOREIGN KEY([MovieTypeId]) REFERENCES [Dictionaries].[MovieTypes]([MovieTypeId]),
 	CONSTRAINT FK_Titles_Movies_Dictionaties_ContentRatings FOREIGN KEY([ContentRatingId]) REFERENCES [Dictionaries].[ContentRatings]([ContentRatingId]),
-	CONSTRAINT FK_Titles_Movies_Titles_EpisodesInfo FOREIGN KEY([EpisodeInfoId]) REFERENCES [Titles].[EpisodesInfo]([EpisodeInfoId]),
 	CONSTRAINT FK_Titles_Movies_Titles_BoxOffice FOREIGN KEY([BoxOfficeId]) REFERENCES [Titles].[BoxOffice]([BoxOfficeId])
 )

@@ -3,12 +3,11 @@ using AMDB.Entities.DbContext;
 using AMDB.Entities.Models;
 
 namespace ADMB.DataImporter.Fillers;
-
-public class TmpPersonPrimaryProfessionFiller
+public class TmpNameBasicsKnownForFiller
 {
     private string NameBasicsPath { get; set; }
     private AmdbContext DbContext { get; set; }
-    public TmpPersonPrimaryProfessionFiller(string nameBasicsPath, AmdbContext dbContext)
+    public TmpNameBasicsKnownForFiller(string nameBasicsPath, AmdbContext dbContext)
     {
         NameBasicsPath = nameBasicsPath;
         DbContext = dbContext;
@@ -17,7 +16,7 @@ public class TmpPersonPrimaryProfessionFiller
     {
         var persons = GetCsvInfo();
 
-        AddPrimaryProfessoinsToDb(persons);
+        AddKnownForToDb(persons);
 
         Console.WriteLine("Done");
     }
@@ -31,24 +30,24 @@ public class TmpPersonPrimaryProfessionFiller
         return nameBasics;
     }
 
-    private void AddPrimaryProfessoinsToDb(IEnumerable<NameBasic> nameBasics)
+    private void AddKnownForToDb(IEnumerable<NameBasic> nameBasics)
     {
         int count = 0;
         int count2 = 0;
 
-        IEnumerable<TmpPersonPrimaryProfession> personPrimaryProfessions = new List<TmpPersonPrimaryProfession>();
+        IEnumerable<TmpKnownFor> personKnownFor = new List<TmpKnownFor>();
 
         foreach (var record in nameBasics)
         {
 
-            personPrimaryProfessions = record.primaryProfession.Split(",")
-                .Select(x => new TmpPersonPrimaryProfession()
+            personKnownFor = record.knownForTitles.Split(",")
+                .Select(x => new TmpKnownFor()
                 {
                     PersonImdbId = record.nconst,
-                    Profession = x
+                    KnownFor = x
                 });
 
-            DbContext.AddRange(personPrimaryProfessions);
+            DbContext.AddRange(personKnownFor);
 
             if (count == 10000)
             {
@@ -62,7 +61,7 @@ public class TmpPersonPrimaryProfessionFiller
             count2++;
         }
 
-        DbContext.AddRange(personPrimaryProfessions);
+        DbContext.AddRange(personKnownFor);
         DbContext.SaveChanges();
 
         Console.WriteLine("Done");

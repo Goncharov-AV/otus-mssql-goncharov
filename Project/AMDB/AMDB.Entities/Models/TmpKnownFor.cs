@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace AMDB.Entities.Models
 {
-    public partial class PersonPrimaryProfession
+    public partial class TmpKnownFor
     {
         public int Id { get; set; }
         public string? PersonImdbId { get; set; }
-        public string? Profession { get; set; }
+        public string? KnownFor { get; set; }
     }
 }

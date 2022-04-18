@@ -8,7 +8,8 @@ namespace AMDB.Entities.Models
         public Movie()
         {
             Casts = new HashSet<Cast>();
-            EpisodesInfos = new HashSet<EpisodesInfo>();
+            EpisodesInfoEpisodes = new HashSet<EpisodesInfo>();
+            EpisodesInfoSeries = new HashSet<EpisodesInfo>();
             KnownFors = new HashSet<KnownFor>();
             MovieCompanies = new HashSet<MovieCompany>();
             MovieCountries = new HashSet<MovieCountry>();
@@ -32,17 +33,15 @@ namespace AMDB.Entities.Models
         public int? RuntimeMins { get; set; }
         public string? Plot { get; set; }
         public int? ContentRatingId { get; set; }
-        public int? SeriesInfoId { get; set; }
         public int? YearEnd { get; set; }
-        public int? EpisodeInfoId { get; set; }
         public int? BoxOfficeId { get; set; }
 
         public virtual BoxOffice? BoxOffice { get; set; }
         public virtual ContentRating? ContentRating { get; set; }
-        public virtual EpisodesInfo? EpisodeInfo { get; set; }
         public virtual MovieType? MovieType { get; set; }
         public virtual ICollection<Cast> Casts { get; set; }
-        public virtual ICollection<EpisodesInfo> EpisodesInfos { get; set; }
+        public virtual ICollection<EpisodesInfo> EpisodesInfoEpisodes { get; set; }
+        public virtual ICollection<EpisodesInfo> EpisodesInfoSeries { get; set; }
         public virtual ICollection<KnownFor> KnownFors { get; set; }
         public virtual ICollection<MovieCompany> MovieCompanies { get; set; }
         public virtual ICollection<MovieCountry> MovieCountries { get; set; }

@@ -35,13 +35,20 @@ namespace AMDB.Entities.DbContext
         public virtual DbSet<MovieLanguage> MovieLanguages { get; set; } = null!;
         public virtual DbSet<MovieType> MovieTypes { get; set; } = null!;
         public virtual DbSet<Person> Persons { get; set; } = null!;
-        public virtual DbSet<PersonPrimaryProfession> PersonPrimaryProfessions { get; set; } = null!;
         public virtual DbSet<PrimaryProfession> PrimaryProfessions { get; set; } = null!;
         public virtual DbSet<Profession> Professions { get; set; } = null!;
         public virtual DbSet<Rating> Ratings { get; set; } = null!;
         public virtual DbSet<RatingName> RatingNames { get; set; } = null!;
         public virtual DbSet<Similar> Similars { get; set; } = null!;
         public virtual DbSet<Team> Teams { get; set; } = null!;
+        public virtual DbSet<TmpAka> TmpAkas { get; set; } = null!;
+        public virtual DbSet<TmpCrew> TmpCrews { get; set; } = null!;
+        public virtual DbSet<TmpEpisode> TmpEpisodes { get; set; } = null!;
+        public virtual DbSet<TmpKnownFor> TmpKnownFors { get; set; } = null!;
+        public virtual DbSet<TmpPersonPrimaryProfession> TmpPersonPrimaryProfessions { get; set; } = null!;
+        public virtual DbSet<TmpPrincipal> TmpPrincipals { get; set; } = null!;
+        public virtual DbSet<TmpTitleBasicsGenre> TmpTitleBasicsGenres { get; set; } = null!;
+        public virtual DbSet<TmpTitleRating> TmpTitleRatings { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -128,17 +135,23 @@ namespace AMDB.Entities.DbContext
             modelBuilder.Entity<EpisodesInfo>(entity =>
             {
                 entity.HasKey(e => e.EpisodeInfoId)
-                    .HasName("PK__Episodes__30BB6AAD2812FE64");
+                    .HasName("PK__tmp_ms_x__30BB6AADCD7B56EB");
 
                 entity.ToTable("EpisodesInfo", "Titles");
 
                 entity.Property(e => e.EpisodeInfoId).HasDefaultValueSql("(NEXT VALUE FOR [Sequences].[EpisodeInfoId])");
 
+                entity.HasOne(d => d.Episode)
+                    .WithMany(p => p.EpisodesInfoEpisodes)
+                    .HasForeignKey(d => d.EpisodeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Titles_EpisodeInfo_EpisodeId_Titles_Movies");
+
                 entity.HasOne(d => d.Series)
-                    .WithMany(p => p.EpisodesInfos)
+                    .WithMany(p => p.EpisodesInfoSeries)
                     .HasForeignKey(d => d.SeriesId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Titles_EpisodeInfo_Titles_Movies");
+                    .HasConstraintName("FK_Titles_EpisodeInfo_SeriesId_Titles_Movies");
             });
 
             modelBuilder.Entity<Genre>(entity =>
@@ -218,11 +231,6 @@ namespace AMDB.Entities.DbContext
                     .WithMany(p => p.Movies)
                     .HasForeignKey(d => d.ContentRatingId)
                     .HasConstraintName("FK_Titles_Movies_Dictionaties_ContentRatings");
-
-                entity.HasOne(d => d.EpisodeInfo)
-                    .WithMany(p => p.Movies)
-                    .HasForeignKey(d => d.EpisodeInfoId)
-                    .HasConstraintName("FK_Titles_Movies_Titles_EpisodesInfo");
 
                 entity.HasOne(d => d.MovieType)
                     .WithMany(p => p.Movies)
@@ -350,15 +358,6 @@ namespace AMDB.Entities.DbContext
                 entity.Property(e => e.PersonImdbId).HasMaxLength(255);
             });
 
-            modelBuilder.Entity<PersonPrimaryProfession>(entity =>
-            {
-                entity.ToTable("PersonPrimaryProfession", "tmp");
-
-                entity.Property(e => e.PersonImdbId).HasMaxLength(255);
-
-                entity.Property(e => e.Profession).HasMaxLength(255);
-            });
-
             modelBuilder.Entity<PrimaryProfession>(entity =>
             {
                 entity.ToTable("PrimaryProfessions", "Names");
@@ -473,6 +472,174 @@ namespace AMDB.Entities.DbContext
                     .HasForeignKey(d => d.ProfessionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Titles_Teams_Dictionaries_Professions");
+            });
+
+            modelBuilder.Entity<TmpAka>(entity =>
+            {
+                entity.ToTable("tmpAkas", "tmp");
+
+                entity.HasIndex(e => e.TitleId, "IX_Akas_titleId");
+
+                entity.Property(e => e.Attributes)
+                    .HasMaxLength(255)
+                    .HasColumnName("attributes");
+
+                entity.Property(e => e.IsOriginalTitle)
+                    .HasMaxLength(255)
+                    .HasColumnName("isOriginalTitle");
+
+                entity.Property(e => e.Language)
+                    .HasMaxLength(255)
+                    .HasColumnName("language");
+
+                entity.Property(e => e.Ordering).HasColumnName("ordering");
+
+                entity.Property(e => e.Region)
+                    .HasMaxLength(255)
+                    .HasColumnName("region");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(255)
+                    .HasColumnName("title");
+
+                entity.Property(e => e.TitleId)
+                    .HasMaxLength(255)
+                    .HasColumnName("titleId");
+
+                entity.Property(e => e.Types)
+                    .HasMaxLength(255)
+                    .HasColumnName("types");
+            });
+
+            modelBuilder.Entity<TmpCrew>(entity =>
+            {
+                entity.ToTable("tmpCrew", "tmp");
+
+                entity.HasIndex(e => e.Directors, "IX_Crew_directors");
+
+                entity.HasIndex(e => e.Tconst, "IX_Crew_tconst");
+
+                entity.HasIndex(e => e.Writers, "IX_Crew_writers");
+
+                entity.Property(e => e.Directors)
+                    .HasMaxLength(255)
+                    .HasColumnName("directors");
+
+                entity.Property(e => e.Tconst)
+                    .HasMaxLength(255)
+                    .HasColumnName("tconst");
+
+                entity.Property(e => e.Writers)
+                    .HasMaxLength(255)
+                    .HasColumnName("writers");
+            });
+
+            modelBuilder.Entity<TmpEpisode>(entity =>
+            {
+                entity.ToTable("tmpEpisodes", "tmp");
+
+                entity.HasIndex(e => e.ParentTconst, "IX_Episodes_parentTconst");
+
+                entity.HasIndex(e => e.Tconst, "IX_Episodes_tconst");
+
+                entity.Property(e => e.EpisodeNumber).HasColumnName("episodeNumber");
+
+                entity.Property(e => e.ParentTconst)
+                    .HasMaxLength(255)
+                    .HasColumnName("parentTconst");
+
+                entity.Property(e => e.SeasonNumber).HasColumnName("seasonNumber");
+
+                entity.Property(e => e.Tconst)
+                    .HasMaxLength(255)
+                    .HasColumnName("tconst");
+            });
+
+            modelBuilder.Entity<TmpKnownFor>(entity =>
+            {
+                entity.ToTable("TmpKnownFor", "tmp");
+
+                entity.HasIndex(e => e.KnownFor, "IX_TmpKnownFor_KnownFor");
+
+                entity.HasIndex(e => e.PersonImdbId, "IX_TmpKnownFor_PersonImdbId");
+
+                entity.Property(e => e.KnownFor).HasMaxLength(255);
+
+                entity.Property(e => e.PersonImdbId).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<TmpPersonPrimaryProfession>(entity =>
+            {
+                entity.ToTable("tmpPersonPrimaryProfession", "tmp");
+
+                entity.Property(e => e.PersonImdbId).HasMaxLength(255);
+
+                entity.Property(e => e.Profession).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<TmpPrincipal>(entity =>
+            {
+                entity.ToTable("tmpPrincipals", "tmp");
+
+                entity.HasIndex(e => e.Nconst, "IX_Principals_nconst");
+
+                entity.HasIndex(e => e.Tconst, "IX_Principals_tconst");
+
+                entity.Property(e => e.Category)
+                    .HasMaxLength(255)
+                    .HasColumnName("category");
+
+                entity.Property(e => e.Character)
+                    .HasMaxLength(255)
+                    .HasColumnName("character");
+
+                entity.Property(e => e.Job)
+                    .HasMaxLength(255)
+                    .HasColumnName("job");
+
+                entity.Property(e => e.Nconst)
+                    .HasMaxLength(255)
+                    .HasColumnName("nconst");
+
+                entity.Property(e => e.Ordering).HasColumnName("ordering");
+
+                entity.Property(e => e.Tconst)
+                    .HasMaxLength(255)
+                    .HasColumnName("tconst");
+            });
+
+            modelBuilder.Entity<TmpTitleBasicsGenre>(entity =>
+            {
+                entity.ToTable("TmpTitleBasicsGenres", "tmp");
+
+                entity.HasIndex(e => e.Genre, "IX_TmpTitleBasicsGenres_genre");
+
+                entity.HasIndex(e => e.Tconst, "IX_TmpTitleBasicsGenres_tconst");
+
+                entity.Property(e => e.Genre)
+                    .HasMaxLength(255)
+                    .HasColumnName("genre");
+
+                entity.Property(e => e.Tconst)
+                    .HasMaxLength(255)
+                    .HasColumnName("tconst");
+            });
+
+            modelBuilder.Entity<TmpTitleRating>(entity =>
+            {
+                entity.ToTable("tmpTitleRatings", "tmp");
+
+                entity.HasIndex(e => e.Tconst, "IX_TItleRatings_tconst");
+
+                entity.Property(e => e.AverageRating)
+                    .HasColumnType("decimal(3, 1)")
+                    .HasColumnName("averageRating");
+
+                entity.Property(e => e.NumVotes).HasColumnName("numVotes");
+
+                entity.Property(e => e.Tconst)
+                    .HasMaxLength(255)
+                    .HasColumnName("tconst");
             });
 
             modelBuilder.HasSequence("BoxOfficeId", "Sequences");
