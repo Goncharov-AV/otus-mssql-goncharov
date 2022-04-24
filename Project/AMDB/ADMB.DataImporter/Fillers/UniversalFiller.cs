@@ -41,17 +41,23 @@ public class UniversalFiller<TCsvClass, TEntity>
 
         foreach (var record in csvObjects)
         {
-            var entity = Mapper(record);
-
-            if (entity != null) DbContext.Add(entity);
-
-            if (count == 10000)
-            {
-                DbContext.SaveChanges();
-                DbContext.ChangeTracker.Clear();
-                Console.WriteLine(count2);
+            if (count2 == 10560001)
                 count = 0;
+            if (count2 > 10560000)
+            {
+                var entity = Mapper(record);
+
+                if (entity != null) DbContext.Add(entity);
+
+                if (count == 10000)
+                {
+                    DbContext.SaveChanges();
+                    DbContext.ChangeTracker.Clear();
+                    Console.WriteLine(count2);
+                    count = 0;
+                }
             }
+            
             
             count++;
             count2++;

@@ -19,11 +19,65 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="FillPrimaryProfessoins.sql">
+        <FileNode Name="Akas.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>FillPrimaryProfessoins.sql</FullPath>
+          <FullPath>Akas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Fill_Names_Known_For.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Fill_Names_Known_For.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Fill_Names_PrimaryProfessoins.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Fill_Names_PrimaryProfessoins.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Fill_Ratings_Ratings.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Fill_Ratings_Ratings.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Fill_Titles_Cast.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Fill_Titles_Cast.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Fill_Titles_EpisodesInfo.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Fill_Titles_EpisodesInfo.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Fill_Titles_MovieGenres.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Fill_Titles_MovieGenres.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Fill_Titles_Teams.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Fill_Titles_Teams.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Import_Akas.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Import_Akas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Info.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:EMI-N-ET410002:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>EMI-N-ET410002</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Info.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

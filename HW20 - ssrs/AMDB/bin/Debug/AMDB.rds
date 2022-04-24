@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="AMDB">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=EMI-N-ET410002;Initial Catalog=AMDB</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>f164761a-e346-4352-9975-af34ad8cb388</DataSourceID>
+</RptDataSource>

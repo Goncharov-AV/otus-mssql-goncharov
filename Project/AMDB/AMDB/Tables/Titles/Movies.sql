@@ -17,3 +17,7 @@
 	CONSTRAINT FK_Titles_Movies_Dictionaties_ContentRatings FOREIGN KEY([ContentRatingId]) REFERENCES [Dictionaries].[ContentRatings]([ContentRatingId]),
 	CONSTRAINT FK_Titles_Movies_Titles_BoxOffice FOREIGN KEY([BoxOfficeId]) REFERENCES [Titles].[BoxOffice]([BoxOfficeId])
 )
+
+GO
+
+CREATE INDEX [IX_Movies_ImdbMovieId] ON [Titles].[Movies] ([ImdbMovieId])

@@ -4,6 +4,7 @@
 	[MovieId] INT NOT NULL,
 	[PersonId] INT NOT NULL,
 	[ProfessionId] INT NOT NULL,
+	[Job] NVARCHAR(255),
 	CONSTRAINT FK_Titles_Teams_Titles_Movies FOREIGN KEY([MovieId]) REFERENCES [Titles].[Movies]([MovieId]),
 	CONSTRAINT FK_Titles_Teams_Names_Persons FOREIGN KEY([PersonId]) REFERENCES [Names].[Persons]([PersonId]),
 	CONSTRAINT FK_Titles_Teams_Dictionaries_Professions FOREIGN KEY([ProfessionId]) REFERENCES [Dictionaries].[Professions]([ProfessionId])
